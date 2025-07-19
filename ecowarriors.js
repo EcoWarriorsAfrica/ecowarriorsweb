@@ -105,3 +105,44 @@ const track = document.getElementById("teamTrack");
   // pause on hover, resume on leave
   track.addEventListener("mouseenter", stopAutoPlay);
   track.addEventListener("mouseleave", startAutoPlay);
+  // Helper: interpolate between two hex colors
+    function lerpColor(a, b, t) {
+      const ah = parseInt(a.slice(1), 16),
+            ar = ah >> 16, ag = (ah >> 8) & 0xff, ab = ah & 0xff,
+            bh = parseInt(b.slice(1), 16),
+            br = bh >> 16, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
+      const rr = Math.round(ar + (br - ar)*t),
+            rg = Math.round(ag + (bg - ag)*t),
+            rb = Math.round(ab + (bb - ab)*t);
+      return `#${((1<<24) + (rr<<16) + (rg<<8) + rb).toString(16).slice(1)}`;
+    }
+
+    const startColor = '#ADD8E6'; // light blue
+    const endColor   = '#00008B'; // dark blue
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const t = Math.min(1, Math.max(0, scrollTop / docHeight));
+      document.body.style.backgroundColor = lerpColor(startColor, endColor, t);
+    });
+
+    //key features
+  // Wait for the DOM to load
+  document.addEventListener("DOMContentLoaded", function() {
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    // Create an Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.1 }); // Trigger when 10% of the card is visible
+    
+    // Observe each card
+    featureCards.forEach(card => {
+      observer.observe(card);
+    });
+  });
