@@ -1,148 +1,85 @@
-ecowarriors.js
-document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', function(e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
+// IntersectionObserver to trigger the reveal effect when sections enter the viewport
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('.reveal');
+  
+  const options = {
+    root: null, // The viewport
+    threshold: 0.25 // Trigger when 25% of the section is in the viewport
+  };
+  
+  const revealOnScroll = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Add active class to reveal the section
+        entry.target.classList.add('active');
+        // Stop observing the section once it has been revealed
+        observer.unobserve(entry.target);
+      }
     });
+  }, options);
+
+  // Observe each section
+  sections.forEach(section => {
+    revealOnScroll.observe(section);
   });
 });
-let teamIndex = 0;
-let autoSlideInterval;
-const cardsPerSlide = () => {
-  if (window.innerWidth <= 480) return 1;
-  if (window.innerWidth <= 768) return 2;
-  return 3;
-};
+// Add event listeners to the nav links to handle clicks
+const navLinks = document.querySelectorAll('.nav-link');
 
-function slideTeam(direction) {
-  const track = document.getElementById("teamTrack");
-  const cards = document.querySelectorAll(".team-card");
-  const totalCards = cards.length;
-  const visible = cardsPerSlide();
-  const maxIndex = Math.ceil(totalCards / visible) - 1;
-
-  teamIndex += direction;
-  if (teamIndex < 0) teamIndex = maxIndex;
-  if (teamIndex > maxIndex) teamIndex = 0;
-
-  const slideWidth = track.offsetWidth / totalCards * visible;
-  const offset = teamIndex * slideWidth;
-  track.style.transform = `translateX(-${offset}px)`;
+function setActiveLink(event) {
+  // Remove the active class from all links
+  navLinks.forEach(link => link.classList.remove('active'));
+  
+  // Add the active class to the clicked link
+  event.target.classList.add('active');
 }
 
-// Scroll-triggered animation for headings
-function revealAnimatedHeadings() {
-  const headings = document.querySelectorAll('.animated-heading');
-  const triggerPoint = window.innerHeight * 0.85;
+// Add event listeners for click events on the navbar links
+navLinks.forEach(link => {
+  link.addEventListener('click', setActiveLink);
+});
 
-  headings.forEach(heading => {
-    const headingTop = heading.getBoundingClientRect().top;
+// Function to handle the active link based on the section in view
+function handleActiveLink(entries, observer) {
+  entries.forEach(entry => {
+    const id = entry.target.id; // Get the id of the section
+    const link = document.querySelector(`.nav-link[href="#${id}"]`);
 
-    if (headingTop < triggerPoint) {
-      heading.classList.add('visible');
+    if (entry.isIntersecting) {
+      // If the section is in the viewport, add the active class
+      link.classList.add('active');
+    } else {
+      // If the section is not in the viewport, remove the active class
+      link.classList.remove('active');
     }
   });
 }
 
-// Run on scroll and page load
-const sections = document.querySelectorAll("section[id]");
-const navLinks = document.querySelectorAll(".nav-link");
-
-function updateActiveNavLink() {
-  let scrollPos = window.scrollY;
-
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 150;
-    const sectionHeight = section.offsetHeight;
-    const sectionId = section.getAttribute("id");
-
-    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${sectionId}`) {
-          link.classList.add("active");
-        }
-      });
-    }
-  });
-}
-
-window.addEventListener("scroll", updateActiveNavLink);
-window.addEventListener("load", updateActiveNavLink);
-
-const track = document.getElementById("teamTrack");
-  const card   = track.querySelector(".team-card");
-  const gap    = 16; // must match your CSS `gap: 1rem` (16px) or whatever you chose
-  const step   = card.offsetWidth + gap;
-
-  // manual scroll (arrow buttons)
-  function slideTeam(direction) {
-    track.scrollBy({ left: direction * step, behavior: "smooth" });
-  }
-
-  // autoplay logic
-  let autoPlayInterval;
-
-  function startAutoPlay() {
-    autoPlayInterval = setInterval(() => {
-      // if we've reached (or passed) the end, jump back to start
-      if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 1) {
-        track.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        track.scrollBy({ left: step, behavior: "smooth" });
-      }
-    }, 3000); // every 3 seconds
-  }
-
-  function stopAutoPlay() {
-    clearInterval(autoPlayInterval);
-  }
-
-  // kick it off
-  startAutoPlay();
-
-  // pause on hover, resume on leave
-  track.addEventListener("mouseenter", stopAutoPlay);
-  track.addEventListener("mouseleave", startAutoPlay);
-  // Helper: interpolate between two hex colors
-    function lerpColor(a, b, t) {
-      const ah = parseInt(a.slice(1), 16),
-            ar = ah >> 16, ag = (ah >> 8) & 0xff, ab = ah & 0xff,
-            bh = parseInt(b.slice(1), 16),
-            br = bh >> 16, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
-      const rr = Math.round(ar + (br - ar)*t),
-            rg = Math.round(ag + (bg - ag)*t),
-            rb = Math.round(ab + (bb - ab)*t);
-      return `#${((1<<24) + (rr<<16) + (rg<<8) + rb).toString(16).slice(1)}`;
-    }
-
-    const startColor = '#ADD8E6'; // light blue
-    const endColor   = '#00008B'; // dark blue
-
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
-      const t = Math.min(1, Math.max(0, scrollTop / docHeight));
-      document.body.style.backgroundColor = lerpColor(startColor, endColor, t);
-    });
-
-    //key features
-  // Wait for the DOM to load
-  document.addEventListener("DOMContentLoaded", function() {
-    const featureCards = document.querySelectorAll('.feature-card');
-    
-    // Create an Intersection Observer
-    const observer = new IntersectionObserver((entries) => {
+document.addEventListener("DOMContentLoaded", () => {
+    // Scroll Reveal Effect
+    const sections = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 }); // Trigger when 10% of the card is visible
-    
-    // Observe each card
-    featureCards.forEach(card => {
-      observer.observe(card);
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+
+    // Typing Effect using Typed.js
+    const typingElements = document.querySelectorAll('.typing-text');
+    typingElements.forEach(el => {
+      const originalText = el.textContent.trim();
+      el.textContent = ''; // clear text before animation
+
+      new Typed(el, {
+        strings: [originalText],
+        typeSpeed: 2,
+        backSpeed: 0,
+        fadeOut: true,
+        showCursor: false
+      });
     });
   });

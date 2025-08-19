@@ -6,54 +6,57 @@
   <title>EcoWarriors Africa</title>
   <link rel="stylesheet" href="ecowarriors.css" />
  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+ 
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar">
+<nav class="navbar">
   <div class="nav-container">
     <!-- Logo + Wordmark -->
-   
     <a href="#home" class="logo-link">
-      <img src="images/LOGO.png" alt="ecowarriors Logo" class="logo-image" style="height: 50px;" />
+      <img src="images/eco.png" alt="EcoWarriors Logo" class="logo-image" />
       <span class="logo-text">EcoWarriors</span>
     </a>
-  
+
     <ul class="nav-links">
-      <li><a href="#home" class="nav-link">Home</a></li>
-      <li><a href="#about" class="nav-link">About</a>
-        
-      </li>
+      <li><a href="#home" class="nav-link active">Home</a></li> <!-- Add 'active' class to highlight current page -->
+      <li><a href="#about" class="nav-link">About</a></li>
       <li><a href="#gallery" class="nav-link">Gallery</a></li>
       <li><a href="#team" class="nav-link">Our Team</a></li>
-      <!-- removed 
-      <li><a href="#partners" class="nav-link">Partners</a></li>
-      <li><a href="#contact" class="nav-link">Contact Us</a></li>
-      -->
     </ul>
   </div>
 </nav>
 
   <!-- Home Section with Live Background -->
-  <section id="home" class="home-section">
-  <!-- Canvas where particles will render -->
-  <div id="tsparticles"></div>
+<section id="home" class="home-section">
+  <!-- Container for the image with overlay -->
+  <div class="image-container">
+    <!-- Background image (use your image path) -->
+    <img src="images/banner.png" alt="EcoWarriors Africa" class="background-image" />
+    
+    <!-- Overlay -->
+    <div class="overlay"></div>
 
-  <div class="home-content">
-    <h1>Learn. Play. Protect.</h1>
-    <p>
-       An interactive driving game that empowers African youth to understand and tackle climate issues through fun, meaningful gameplay.
-    </p>
-    <button onclick="alert('App Coming Soon!')"  class="btn-primary dance">Get the App</button>
+    <!-- Home Content (text and button) -->
+    <div class="home-content">
+      <h1>
+        <span class="learn">Learn.</span><br />
+        <span class="play">Play.</span><br />
+        <span class="protect">Protect.</span>
+      </h1>
+      <p>
+        An interactive driving game that empowers African youth to understand and tackle climate issues through fun, meaningful gameplay.
+      </p>
+      <button onclick="alert('Download coming soon! Join our waitlist.')" class="btn-primary dance">Get App</button>
+    </div>
   </div>
- 
-
 </section>
-
   <!-- About Section -->
-<section id="about" class="about-section">
+<section id="about" class="about-section reveal">
   <div class="container about-wrap">
-    <h2 class="animated-heading">About the Project</h2>
+    <h2 class="animated-heading" style="color: #ffffff;">About the Project</h2>
 
     <div class="about-cards">
       <div class="about-card">
@@ -61,9 +64,7 @@
           <span class="icon" aria-hidden="true">🌍</span>
           Problem Statement
         </h3>
-        <p>Across Africa, many young people are passionate about the environment but
-           lack interactive and engaging tools that empower them to learn about climate challenges and take meaningful action. 
-          Traditional education methods often fail to inspire sustained participation, leaving a gap between awareness and action in climate education..</p>
+        <p id="feat1" >Many African youths care about the environment but lack engaging tools to turn awareness into action, as traditional methods often fail to sustain interest.</p>
       </div>
 
       <div class="about-card">
@@ -71,310 +72,209 @@
           <span class="icon" aria-hidden="true">💡</span>
           Our Solution
         </h3>
-        <p>EcoWarriors Africa is a gamified platform where players complete eco-missions, collaborate with others, 
-          and track their environmental impact in real-time. By turning sustainable actions into interactive challenges—
-          like delivering seedlings or collecting recyclables—the platform empowers users to learn, act, 
-          and make a difference while having fun.</p>
+        <p >EcoWarriors Africa turns eco-friendly tasks into fun challenges, letting players learn, act, and track their impact through real-time, gamified missions.</p>
       </div>
     </div>
   </div>
 </section>
-
 <!-- Project Overview Section -->
-<section id="overview" class="overview-section">
+ <section id="overview" class="overview-section reveal" class="section">
   <div class="container overview-card">
-    <h2 class="animated-heading" style="text-align: center; font-size: 2rem;">
+    <h2 class="animated-heading1" style="text-align: center; font-size: 2rem;">
       <span class="icon" aria-hidden="true">📖</span>
       Project Overview
     </h2>
-    <p>
-      EcoWarriors Africa is an educational driving simulation game designed to bridge the gap between environmental awareness and real-world action.
-       Players take on the role of EcoWarriors delivering essential green resources—such as seedlings, recycling bins, 
-      and solar kits—across African cities. 
-      By facilitating activities like tree planting, clean-ups, and renewable energy adoption, the game turns climate-positive actions into fun, mission-based gameplay. 
-      Through eco-tips, challenges, and environmental point systems, players not only learn sustainable habits but also see the tangible impact of their virtual efforts. 
-      EcoWarriors Africa inspires sustained engagement and empowers young Africans to become active stewards of the environment.
+    <p >
+      EcoWarriors Africa is a driving simulation game where players deliver eco-resources across cities, learning sustainability through fun, mission-based gameplay..
     </p>
   </div>
 </section>
 
 <!-- Key Features Section -->
-<section id="features">
-  <h2>Key Features</h2>
-  <div class="features-container">
+<section class="features-section reveal">
+  <h2 style="font-size: 40px; text-align: center; margin-bottom: 40px;">Key Features</h2>
+
+  <div class="row text-center">
+    
     <!-- Delivery Missions -->
-    <div class="feature-card">
-      <div class="feature-icon">🚚</div>
-      <h3>Delivery Missions</h3>
-      <p>Pilot your Eco‑vehicle through real‑world city streets—pick up seedling crates, recycling bins or solar kits, navigate traffic, avoid collisions and deliver on time to earn stars and Environmental Points.</p>
+    <div class="col-12 col-md-6 mb-2 how-it-works-box"  class="Key" >
+      <img src="images/delivery.png" alt="" width="60">
+      <h4>Delivery Missions</h4>
+      <p >Pick up crates, avoid traffic, and deliver on time to earn points.</p>
+      <div class="feature-card">
+        <p >Complete deliveries to earn stars and rewards.</p>
+      </div>
     </div>
 
-    <!-- Educational Eco‑Tips -->
-    <div class="feature-card">
-      <div class="feature-icon">💡</div>
-      <h3>Educational Eco‑Tips</h3>
-      <p>Learn as you drive: dynamic pop‑up facts (e.g. “Gentle braking can save up to 15% fuel”) appear in‑game to reinforce best practices in fuel efficiency, waste management and renewable energy.</p>
+    <!-- Eco-Tips -->
+    <div class="col-12 col-md-6 mb-2 how-it-works-box" class="Key">
+      <img src="images/ecotips.png" alt="" width="60">
+      <h4>Eco-Tips</h4>
+      <p >Get tips on fuel efficiency, waste management, and energy-saving practices.</p>
+      <div class="feature-card">
+        <p >Learn eco-friendly tips to improve your efficiency.</p>
+      </div>
     </div>
 
-    <!-- City Health Progression -->
-    <div class="feature-card">
-      <div class="feature-icon">📈</div>
-      <h3>City Health Progression</h3>
-      <p>Watch each city’s EcoHealth Meter rise as you complete missions—clear skies, greener parks and unlocked vehicles, new districts and story challenges await once you hit each milestone.</p>
+    <!-- City Health -->
+    <div class="col-12 col-md-6 mb-2 how-it-works-box" class="Key">
+      <img src="images/health.png" alt="" width="60">
+      <h4>City Health</h4>
+      <p >Improve the city's EcoHealth with each mission.</p>
+      <div class="feature-card">
+        <p >Boost EcoHealth and unlock new challenges.</p>
+      </div>
     </div>
 
-    <!-- Competitive & Ghost Racing -->
-    <div class="feature-card">
-      <div class="feature-icon">🏁</div>
-      <h3>Competitive & Ghost Racing</h3>
-      <p>Challenge your friends or your own best run: race head‑to‑head in online lobbies or against ghost vehicles, compare times and penalties on leaderboards, and chase daily or weekly route challenges.</p>
+    <!-- Ghost Racing -->
+    <div class="col-12 col-md-6 mb-2 how-it-works-box" class="Key">
+      <img src="images/racing.png" alt="" width="60">
+      <h4>Ghost Racing</h4>
+      <p >Race against friends or ghosts for leaderboard spots.</p>
+      <div class="feature-card">
+        <p >Compete for top rankings and rewards.</p>
+      </div>
     </div>
 
     <!-- Rewards & Upgrades -->
-    <div class="feature-card">
-      <div class="feature-icon">🏆</div>
-      <h3>Rewards & Upgrades</h3>
-      <p>Spend your earned EP and green tokens in the EcoShop to unlock faster vehicles, improved cargo stability, special skins—and even fund real‑world tree‑planting partnerships.</p>
+    <div class="col-12 col-md-6 mb-2 how-it-works-box" class="Key">
+      <img src="images/upgrade.png" alt="" width="60">
+      <h4>Rewards & Upgrades</h4>
+      <p> Use points to unlock new vehicles, upgrades, and skins.</p>
+      <div class="feature-card">
+        <p >Unlock faster vehicles and special upgrades.</p>
+      </div>
     </div>
+
   </div>
 </section>
-
-<!-- How It Works Section -->
- <!--
-<section id="how-it-works">
-  <h2>How It Works</h2>
-  <div class="works-container">
-    <div class="work-step">
-      <div class="step-icon">🔑</div>
-      <div class="step-number">1</div>
-      <h3>Sign Up / Login</h3>
-      <p>Create an account or play as guest to save your progress, sync across devices, and unlock full features.</p>
-    </div>
-
-    <div class="work-step">
-      <div class="step-icon">🚗</div>
-      <div class="step-number">2</div>
-      <h3>Select Avatar & Vehicle</h3>
-      <p>Choose a boy or girl avatar and pick your eco‑vehicle (truck, bike or van) to begin your journey.</p>
-    </div>
-
-    <div class="work-step">
-      <div class="step-icon">🗺️</div>
-      <div class="step-number">3</div>
-      <h3>Choose City & Mission</h3>
-      <p>Browse the city map (e.g., Nairobi) and select a mission: tree‑planting, waste pickup, or solar kit delivery.</p>
-    </div>
-
-    <div class="work-step">
-      <div class="step-icon">📦</div>
-      <div class="step-number">4</div>
-      <h3>Drive & Pick Up Cargo</h3>
-      <p>Pilot your vehicle to the pickup zone, load seedlings or waste crates, and navigate real‑world streets carefully.</p>
-    </div>
-
-    <div class="work-step">
-      <div class="step-icon">🏁</div>
-      <div class="step-number">5</div>
-      <h3>Deliver & Score</h3>
-      <p>Bring your cargo to the drop‑off point. Your final score reflects delivery time, safety, and fuel efficiency.</p>
-    </div>
-
-    <div class="work-step">
-      <div class="step-icon">🌱</div>
-      <div class="step-number">6</div>
-      <h3>Progress & Unlock</h3>
-      <p>Earn Environmental Points to boost the city’s EcoHealth meter, unlock new vehicles, and access advanced missions.</p>
-    </div>
-
-    <div class="work-step">
-      <div class="step-icon">👥</div>
-      <div class="step-number">7</div>
-      <h3>Multiplayer & Race Mode</h3>
-      <p>Join an online lobby to race friends in real‑time or compete against ghost runs on global leaderboards.</p>
-    </div>
-  </div>
-</section>
--->
 <!-- Gallery Section -->
-<section id="gallery" class="gallery-section">
+<section id="gallery" class="gallery-section reveal" class="section">
   <div class="container">
     <h2 class="animated-heading">Gallery</h2>
     <div class="gallery-grid">
       <figure class="gallery-item">
-        <img src="images/gallery1.jpg" alt="Volunteers planting trees" />
-        <figcaption>Mission 1</figcaption>
+        <img src="images/ui 1.jpg" alt="Volunteers planting trees" />
+        <figcaption>sign up</figcaption>
       </figure>
 
       <figure class="gallery-item">
-        <img src="images/gallery2.jpg" alt="Community clean-up event" />
-        <figcaption>Mission 2</figcaption>
+        <img src="images/ui 2.png" alt="Community clean-up event" />
+        <figcaption>Playmode</figcaption>
       </figure>
 
+      
       <figure class="gallery-item">
-        <img src="images/gallery3.jpg" alt="Awareness workshop in session" />
+        <img src="images/select city.jpg" alt="Awareness workshop in session" />
+        <figcaption>Select City</figcaption>
+      </figure><figure class="gallery-item">
+        <img src="images/select mission.jpg" alt="Awareness workshop in session" />
         <figcaption>Mission 3</figcaption>
       </figure>
     </div>
   </div>
 </section>
-    
-
-
-  <!-- 
-  <section id="team">
-  <div id="teamParticles"></div>  <!-- optional: put your particles here 
-
-  <div class="container">
-    <h2 class="animated-heading">Our Team</h2>
-
-    <div class="team-slider">
-      <button  id="arrow" class="prev" onclick="slideTeam(-1)">&#10094;</button>
-
-      <div class="team-track" id="teamTrack">
-        <!-- Repeat one of these cards for each team member 
-        <div class="team-card">
-          <img src="images/wariara.jpg" alt="Warirara " />
-          <h3>Wariara Kinuthia</h3>
-          <p>Back-end Developer</p>
-          <div class="social">
-            <a href="https://github.com/Wariara-Gertu"src="https://github.com/Wariara-Gertu" alt="GitHub"><a href="https://github.com/Wariara-Gertu"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
-            <a href="#"></a>
-            <a href="
-https://www.linkedin.com/in/gertrude-kinuthia-5a1770320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app " alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
-    <a href=" https://www.instagram.com/wariara.k?igsh=aWUzZGdqYTBqYjJv&utm_source=qr
-" src=" https://www.instagram.com/wariara.k?igsh=aWUzZGdqYTBqYjJv&utm_source=qr
-"alt="instagram" ><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
-<a href="#"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
-
-          </div>
-        </div>
-        <!-- …six cards total… 
-        <div class="team-card">
-          <img src="images/musembi.jpg" alt="Musembi" />
-          <h3>Musembi Muia</h3>
-       <p>UI/UX Designer</p>
-          <div class="social">
-            <a href="https://github.com/musembi22"src="https://github.com/musembi22" alt="GitHub"><a href="https://github.com"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i>
-              <a href="www.linkedin.com/in/
-musembi-muia-48a3682b8
-" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
-<a href="#"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
-<a href="#"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
-
-          </div>
-        </div>
-        <div class="team-card">
-          <img src="images/james.jpg" alt="James Muritu" />
-          <h3>James Muritu</h3>
-          <p>Back-end Developer</p>
-          <div class="social">
-            <a href="https://github.com/James-tec"src="https://github.com/James-tec" alt="GitHub"><a href="https://github.com/James-tec"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
-            <a href="www.linkedin.com/in/
-musembi-muia-48a3682b8
-" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
-<a href="#"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
-
-<a href="#"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
-          </div>
-        </div>
-        <div class="team-card">
-          <img src="images\pesh.jpg" alt="Mwende Genesis" />
-          <h3>Mwende Genesis</h3>
-          <p>Project Lead</p>
-          <div class="social">
-            <a href="https://github.com/ItsMwendeez"src="https://github.com/ItsMwendeez" alt="GitHub"><a href="https://github.com/ItsMwendeez"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
-            <a href="https://www.linkedin.com/in/patience-genesis-mwende-njagi-231914369?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app "alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
-<a href="https://www.instagram.com/.its.mwendeez.?igsh=MXc0dWRocG9mdXRpNQ==" src="https://www.instagram.com/.its.mwendeez.?igsh=MXc0dWRocG9mdXRpNQ==" alt="instagram" ><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
-<a href="#"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
-
-          </div>
-        </div>
-        <div class="team-card">
-          <img src="C:\Users\admin\Desktop\Ecowarriors web\images\beckham.jpg" alt="Beckham" />
-          <h3>Beckham Juma</h3>
-          <p>Communication Lead</p>
-          <div class="social">
-      
-                        <a href="https://github.com/musembi22"src="https://github.com/musembi22" alt="GitHub"><a href="https://github.com"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
-
-            <a href="www.linkedin.com/in/
-musembi-muia-48a3682b8
-" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
-<a href="#"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
-<a href="#"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
-          </div>
-        </div>
-        
-        <!-- add more cards as needed 
-      </div>
-
-      <button id="arrow" class="next" onclick="slideTeam(1)">&#10095;</button>
-    </div>
-  </div>
-</section>
--->
-  <!-- Partners 
-  <section id="partners">
-    <h2 class="animated-heading" id="Partner">Partners</h2>
-    <p>We collaborate with NGOs, schools, and green startups to scale our mission across the continent.</p>
-  </section>
--->
-  <!-- Contact Us -->
-  
 <!-- Our Team -->
-<section id="team">
+<section id="team" class="team-section reveal" class="section">
   <div id="teamParticles"></div>  <!-- optional: put your particles here -->
 
   <div class="container">
     <h2 class="animated-heading">Our Team</h2>
 
-    <div class="team-slider">
-      <button class="prev" onclick="slideTeam(-1)">&#10094;</button>
-
-      <div class="team-track" id="teamTrack">
-        <!-- Team member cards -->
-        <div class="team-card">
-          <img src="images/wariara.jpg" alt="Wariara Kinuthia" />
+    <div class="team-track" id="teamTrack">
+      <!-- Team member cards -->
+       <div class="team-card">
+        <img src="images/nderu.png" alt="Dr Lawrence Nderu" />
+        <div class="team-info">
+          <h3>Dr Lawrence Nderu </h3>
+          <p>Chairman Computing</p>
+          <div class="social">
+            <a href="https://github.com/Wariara-Gertu" alt="GitHub"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
+            <a href="https://www.linkedin.com/in/gertrude-kinuthia-5a1770320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
+            <a href="https://www.instagram.com/wariara.k?igsh=aWUzZGdqYTBqYjJv&utm_source=qr" alt="Instagram"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
+            <a href="#" alt="Twitter"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="images/wariara.jpg" alt="Wariara Kinuthia" />
+        <div class="team-info">
           <h3>Wariara Kinuthia</h3>
           <p>Back-end Developer</p>
+          <div class="social">
+            <a href="https://github.com/Wariara-Gertu" alt="GitHub"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
+            <a href="https://www.linkedin.com/in/gertrude-kinuthia-5a1770320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
+            <a href="https://www.instagram.com/wariara.k?igsh=aWUzZGdqYTBqYjJv&utm_source=qr" alt="Instagram"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
+            <a href="#" alt="Twitter"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
+          </div>
         </div>
-        
-        <div class="team-card">
-          <img src="images/musembi.jpg" alt="Musembi Muia" />
+      </div>
+
+      <div class="team-card">
+        <img src="images/musembi.jpg" alt="Musembi Muia" />
+        <div class="team-info">
           <h3>Musembi Muia</h3>
           <p>UI/UX Designer</p>
+          <div class="social">
+            <a href="https://github.com/musembi22" alt="GitHub"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
+            <a href="https://www.linkedin.com/in/musembi-muia-48a3682b8" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
+            <a href="#" alt="Instagram"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
+            <a href="#" alt="Twitter"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
+          </div>
         </div>
-        
-        <div class="team-card">
-          <img src="images/james.jpg" alt="James Muritu" />
-          <h3>James Muritu</h3>
+      </div>
+
+      <div class="team-card">
+        <img src="images/james.jpg" alt="James Muritu" />
+        <div class="team-info">
+          <h3>James Muritu</h3> 
           <p>Back-end Developer</p>
+          <div class="social">
+            <a href="https://github.com/James-tec" alt="GitHub"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
+            <a href="https://www.linkedin.com/in/musembi-muia-48a3682b8" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
+            <a href="#" alt="Twitter"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
+            <a href="#" alt="Instagram"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
+          </div>
         </div>
-        
-        <div class="team-card">
-          <img src="images/pesh.jpg" alt="Mwende Genesis" />
+      </div>
+
+      <div class="team-card">
+        <img src="images/pesh.jpg" alt="Mwende Genesis" />
+        <div class="team-info">
           <h3>Mwende Genesis</h3>
           <p>Project Lead</p>
+          <div class="social">
+            <a href="https://github.com/ItsMwendeez" alt="GitHub"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
+            <a href="https://www.linkedin.com/in/patience-genesis-mwende-njagi-231914369?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
+            <a href="https://www.instagram.com/.its.mwendeez.?igsh=MXc0dWRocG9mdXRpNQ==" alt="Instagram"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
+            <a href="#" alt="Twitter"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
+          </div>
         </div>
-        
-        <div class="team-card">
-          <img src="images/beckham.jpg" alt="Beckham Juma" />
+      </div>
+
+      <div class="team-card">
+        <img src="images/beckham.jpg" alt="Beckham Juma" />
+        <div class="team-info">
           <h3>Beckham Juma</h3>
           <p>Communication Lead</p>
+          <div class="social">
+            <a href="https://github.com/musembi22" alt="GitHub"><i class="fa-brands fa-github fa-lg" style="color: #0f0f0f;"></i></a>
+            <a href="https://www.linkedin.com/in/musembi-muia-48a3682b8" alt="LinkedIn"><i class="fa-brands fa-linkedin fa-lg" style="color: #030303;"></i></a>
+            <a href="#" alt="Instagram"><i class="fa-brands fa-instagram fa-lg" style="color: #050505;"></i></a>
+            <a href="#" alt="Twitter"><i class="fa-brands fa-x-twitter fa-lg" style="color: #050505;"></i></a>
+          </div>
         </div>
-        
-        
-      
-
-      <button class="next" onclick="slideTeam(1)">&#10095;</button>
+      </div>
     </div>
   </div>
+</section>
+ 
 </section>
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-top">
       <div class="footer-logo">
-        <img src="images/LOGO.png" alt="ecowarriors" style="height: 30px;"/>
+        <img src="images/eco.png" alt="ecowarriors" style="height: 30px;"/>
         <span >EcoWarriors</span>
       </div>
       <nav class="footer-links">
@@ -414,99 +314,25 @@ musembi-muia-48a3682b8
   </footer>
 
   <script src="ecowarriors.js"></script>
-</body>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
-  tsParticles.load("tsparticles", {
-  particles: {
-    number: { value: 40, density: { enable: true, area: 800 } },
-    shape: {
-      type: "char",
-      character: {
-        value: ["🎮", "🌍", "" ,"🦋"],
-        font: "Verdana",
-        style: "",
-        weight: "400",
-        fill: true
-      }
-    },
-    size: {
-      value: 16,
-      random: { enable: true, minimumValue: 12 }
-    },
-    opacity: { value: 0.8, random: true },
-    move: {
-      enable: true,
-      speed: 10,
-      direction: "none",
-      outModes: { default: "out" }
-    },
-    links: { enable: false }  // turn off linking lines
-  },
-  interactivity: {
-    events: {
-      onHover: { enable: true, mode: "bubble" },
-      onClick: { enable: true, mode: "repulse" }
-    },
-    modes: {
-      bubble: { distance: 100, size: 24, duration: 1 },
-      repulse: { distance: 120 }
-    }
-  },
-  detectRetina: true
-});tsParticles.load("tsparticles", {
-    /* IMPORTANT: disable fullscreen */
-    fullScreen: {
-      enable: false
-    },
-
-    /* now the rest of your config */
-    particles: {
-      number: {
-        value: 40,
-        density: { enable: true, area: 800 }
-      },
-      shape: {
-        type: "char",
-        character: {
-          value: ["🎮", "🌍", "🦋"],
-          font: "Verdana",
-          style: "",
-          weight: "400",
-          fill: true
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
         }
-      },
-      size: {
-        value: 16,
-        random: { enable: true, minimumValue: 12 }
-      },
-      opacity: {
-        value: 0.8,
-        random: true
-      },
-      move: {
-        enable: true,
-        speed: 5,
-        direction: "none",
-        outModes: { default: "out" }
-      },
-      links: {
-        enable: false
-      }
-    },
-    interactivity: {
-      events: {
-        onHover: { enable: true, mode: "bubble" },
-        onClick: { enable: true, mode: "repulse" }
-      },
-      modes: {
-        bubble: { distance: 100, size: 24, duration: 1 },
-        repulse: { distance: 120 }
-      }
-    },
-    detectRetina: true
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(s => io.observe(s));
   });
 </script>
+
+
+</body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const track = document.getElementById("teamTrack");
@@ -555,5 +381,19 @@ musembi-muia-48a3682b8
       step = cards[0].getBoundingClientRect().width + gap;
     });
   });
+</script>
+<script>
+  const { createApp } = Vue;
+  createApp({
+    data() {
+      return { buttonText: "Get the App" };
+    },
+    methods: {
+      showAppAlert() {
+        alert("Download coming soon! Join our waitlist.");
+        this.buttonText = "Coming Soon!";
+      }
+    }
+  }).mount('#app');
 </script>
 </html>
