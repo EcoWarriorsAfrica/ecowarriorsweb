@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>EcoWarriors Africa</title>
+  <meta name="description" content="EcoWarriors Africa – a playful, mission-driven driving game helping African youth learn and act on sustainability." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <!-- Effects -->
+  <script defer src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <style>
+    :root{
+      --bg:#0a1220; --bg-soft:#0e192b; --fg:#eaf6ff; --muted:#b7cbe4;
+      --accent:#22d3ee; --accent-2:#4fd1c5;
+      --card:#0e192b; --card-2:#0c1727;
+      --shadow:0 10px 25px rgba(0,0,0,.25);
+      --ring: 0 0 0 3px rgba(34,211,238,.25), 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;color:var(--fg);background:linear-gradient(180deg,var(--bg),#071423 40%, var(--bg));}
+    a{color:inherit;text-decoration:none}
+    img,svg{max-width:100%;display:block}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+    .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+    h1,h2,h3{margin:0 0 10px;text-align:center}
+    section{padding:80px 20px;scroll-margin-top:84px}
+    .container{max-width:1200px;margin:0 auto}
+
+    /* Navbar */
+    .navbar{position:sticky;top:0;z-index:1000;backdrop-filter:saturate(120%) blur(8px);background:rgba(10,18,32,.6);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:14px 20px;position:relative}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;white-space:nowrap}
+    .brand img{height:34px;width:auto;border-radius:8px}
+    .spacer{flex:1}
+    .nav-links{display:flex;gap:6px;list-style:none;margin:0;padding:0;position:relative}
+    .nav-link{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;opacity:.9;position:relative}
+    .nav-link:hover{background:rgba(255,255,255,.06);opacity:1}
+    .nav-link.active{color:#04131a}
+    .nav-underline{position:absolute;height:34px;border-radius:12px;background:linear-gradient(90deg,var(--accent-2),var(--accent));top:50%;transform:translateY(-50%);box-shadow:var(--ring);transition:left .25s ease,width .25s ease,opacity .25s ease;opacity:.2;pointer-events:none}
+    .menu-btn{margin-left:10px;display:none;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:12px;padding:8px 10px}
+
+    /* Mobile menu */
+    .menu-panel{position:fixed;inset:60px 12px auto 12px;z-index:1001;background:var(--bg-soft);border:1px solid rgba(255,255,255,.1);border-radius:16px;box-shadow:var(--shadow);display:none}
+    .menu-panel.open{display:block}
+    .menu-panel ul{list-style:none;margin:8px;padding:8px}
+    .menu-panel a{display:block;padding:12px 14px;border-radius:12px}
+    .menu-panel a:hover{background:rgba(255,255,255,.06)}
+
+    /* Progress bar */
+    .progress{position:fixed;inset:0 auto auto 0;height:3px;background:linear-gradient(90deg,var(--accent-2),var(--accent));width:0;z-index:1200;box-shadow:0 2px 10px rgba(34,211,238,.5)}
+
+    /* HERO */
+    .home{padding:0}
+    .hero{
+      position:relative;min-height:78vh;display:grid;place-items:center;overflow:hidden;
+      background:
+        radial-gradient(1200px 600px at 20% 20%, rgba(34,211,238,.12), transparent 60%),
+        radial-gradient(900px 500px at 85% 60%, rgba(79,209,197,.12), transparent 70%),
+        linear-gradient(180deg,#0a1324,#0b1830 55%, #0a1324);
+    }
+    #heroParticles{position:absolute;inset:0;z-index:1;opacity:.45}
+    .hero-inner{
+      position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;width:min(1200px,94vw);padding:40px 20px;
+    }
+    .hero-copy h1{text-align:left;font-size:clamp(2rem,5.4vw,3.8rem);line-height:1.05;letter-spacing:.2px}
+    .hero-copy .kicker{display:inline-block;font-weight:700;letter-spacing:.06em;color:#c8f7ff;margin-bottom:8px}
+    .hero-copy p{color:var(--muted);max-width:56ch;margin:10px 0 18px;text-align:left}
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn-primary{border:none;background:linear-gradient(90deg,var(--accent),#9aecff);color:#04131a;padding:12px 20px;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s ease, box-shadow .2s ease;position:relative;overflow:hidden}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:var(--ring)}
+    .btn-ghost{border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--fg);padding:10px 14px;border-radius:12px;cursor:pointer;position:relative;overflow:hidden}
+    .hero-typed{color:var(--muted);margin-top:10px}
+    .hero-art .hero-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:10px;box-shadow:var(--shadow)}
+
+    /* About */
+    .about .intro{max-width:860px;margin:0 auto 28px;color:var(--muted);text-align:center}
+    .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+    .about-list{display:grid;gap:16px}
+    .about-item{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start}
+    .about-icon{display:grid;place-items:center;height:48px;width:48px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:1.4rem}
+    .about-item h3{text-align:left;margin:0 0 6px}
+    .about-item p{text-align:left;margin:0;color:var(--muted)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .stat{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+    .stat-number{font-weight:800;font-size:1.8rem;line-height:1}
+    .stat-label{color:var(--muted);font-size:.9rem;margin-top:6px}
+
+    /* Overview */
+    .overview .blurb{max-width:900px;margin:8px auto 16px;color:var(--muted);text-align:center}
+    .value-card{margin:18px auto 0;max-width:860px;padding:16px;border-radius:16px;background:linear-gradient(180deg,#0f2138,#0c1b2f);border:1px solid rgba(255,255,255,.08)}
+    .ticker{overflow:hidden;margin-top:16px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+    .ticker-track{display:flex;gap:24px;white-space:nowrap;animation:ticker 22s linear infinite;padding:10px 0}
+    .ticker:hover .ticker-track{animation-play-state:paused}
+    .pill{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:.9rem;color:var(--muted)}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @media (prefers-reduced-motion: reduce){.ticker-track{animation:none}}
+
+    /* Features */
+    .features .lead{max-width:820px;margin:0 auto 22px;color:var(--muted);text-align:center}
+    .feature-tabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+    .chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);cursor:pointer}
+    .chip[aria-selected="true"]{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#04131a;border-color:transparent}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:20px;transition:transform .2s, box-shadow .2s, border-color .2s}
+    .card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 14px 32px rgba(0,0,0,.4);border-color:rgba(79,209,197,.6)}
+    .card-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+    .card-head img{height:54px;width:54px;object-fit:contain;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:6px}
+    .card p{color:var(--muted);margin:0}
+    .card small{display:block;margin-top:6px;color:var(--muted);opacity:.9}
+
+    /* City demo */
+    .city-demo{margin-top:26px;display:grid;grid-template-columns:1fr 2fr;gap:18px;align-items:stretch}
+    .city-panel{background:var(--card-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+    .meter{height:12px;background:#0a1424;border:1px solid rgba(255,255,255,.1);border-radius:999px;overflow:hidden}
+    .meter > span{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--accent-2),var(--accent));transition:width .6s ease}
+
+    /* Testimonials */
+    .testimonials .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .quote{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px;position:relative}
+    .quote::after{content:"";position:absolute;inset:auto 16px -6px 16px;height:6px;border-radius:999px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.35}
+    .quote p{color:var(--muted);margin:0}
+    .quote strong{display:block;margin-top:10px}
+
+    /* FAQ */
+    .faq .item{background:var(--card-2);border:1px solid rgba(255,255,255,.08);border-radius:14px;margin:10px 0;overflow:hidden}
+    .faq button{width:100%;text-align:left;padding:14px 16px;background:transparent;border:none;color:var(--fg);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+    .faq .content{max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .faq .item.open .content{max-height:320px}
+    .faq .content-inner{padding:0 16px 14px;color:var(--muted)}
+
+    /* Team */
+    .team{position:relative}
+    #teamParticles{position:absolute;inset:0;z-index:0;opacity:.35}
+    .team .container{position:relative;z-index:1}
+    .team-track{display:flex;gap:16px;overflow:auto;scrollbar-width:thin;scroll-behavior:smooth;padding-bottom:10px}
+    .member{flex:0 0 240px;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s ease}
+    .member:hover{transform:translateY(-4px)}
+    .member img{height:200px;width:100%;object-fit:cover}
+    .member .info{padding:12px}
+    .member h3{margin:6px 0 2px;text-align:center}
+    .member p{margin:0 0 8px;color:var(--muted);text-align:center}
+    .member .social{text-align:center}
+    .member .social a{margin:0 6px}
+
+    /* CTA band */
+    .cta-band{padding:48px 20px;background:linear-gradient(90deg,#0b1b30,#0e2138);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+    .cta-band .inner{max-width:900px;margin:0 auto;text-align:center}
+    .cta-band p{color:var(--muted);margin:8px auto 16px}
+
+    /* Footer */
+    .footer{background:#081120;border-top:1px solid rgba(255,255,255,.08)}
+    .footer-top{display:grid;grid-template-columns:1.2fr 1fr 1.2fr;gap:18px;max-width:1200px;margin:0 auto;padding:30px 20px}
+    .footer-logo{display:flex;align-items:center;gap:10px;font-weight:800}
+    .footer-links ul{list-style:none;margin:8px 0 0;padding:0}
+    .footer-links a{color:var(--muted)}
+    .contact-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .contact-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);cursor:pointer;position:relative;overflow:hidden}
+    .contact-btn:hover{transform:translateY(-2px)}
+
+    /* Partners row inside footer */
+    .partners{border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:18px 20px}
+    .partners .inner{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+    .partners h3{margin:0;text-align:left}
+    .logo-badges{display:flex;gap:10px;flex-wrap:wrap}
+    .badge{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:var(--muted);background:rgba(255,255,255,.03)}
+    .badge:hover{border-color:rgba(79,209,197,.6);color:#c9f8ff}
+
+    .footer-bottom{max-width:1200px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:1002}
+    .modal.open{display:flex}
+    .modal-card{width:min(560px,92vw);background:var(--bg-soft);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px 18px 12px;box-shadow:var(--shadow)}
+    .modal-card h3{text-align:left}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+    .input{width:100%;padding:12px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0b1c14;color:var(--fg)}
+
+    /* Toast & back to top */
+    .toast{position:fixed;right:12px;bottom:12px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.15);color:#fff;padding:10px 12px;border-radius:10px;opacity:0;transform:translateY(6px);transition:opacity .2s, transform .2s;z-index:2003}
+    .toast.show{opacity:1;transform:none}
+    .to-top{position:fixed;right:18px;bottom:18px;z-index:1200;border:none;border-radius:999px;padding:12px;background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#04131a;box-shadow:var(--shadow);cursor:pointer;opacity:0;transform:translateY(6px);transition:opacity .2s, transform .2s}
+    .to-top.visible{opacity:1;transform:none}
+
+    /* Reveal */
+    .reveal{opacity:1;transform:none}
+    body.js .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
+    body.js .reveal.visible{opacity:1;transform:none}
+
+    /* ===== Vehicle & Road Animations ===== */
+    .hero svg .drive       { animation: drive 10s linear infinite; will-change: transform; }
+    .hero svg .bob         { animation: bob 2.6s ease-in-out infinite; will-change: transform; }
+    .hero svg .wheel-spin  { transform-box: fill-box; transform-origin: center; animation: spin .9s linear infinite; }
+    .hero svg .road-dashes { animation: roadslide 1.2s linear infinite; }
+    .hero svg .road-dashes.offset { animation-delay: .6s; }
+
+    @keyframes drive { 0%{transform:translateX(-560px)} 100%{transform:translateX(980px)} }
+    @keyframes bob   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+    @keyframes spin  { to{transform:rotate(360deg)} }
+    @keyframes roadslide { from{transform:translateX(0)} to{transform:translateX(-180px)} }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .hero svg .drive, .hero svg .bob, .hero svg .wheel-spin, .hero svg .road-dashes { animation:none !important; }
+    }
+
+    /* Responsive */
+    @media (max-width:1020px){
+      .hero-inner{grid-template-columns:1fr;gap:22px}
+      .hero-copy h1{text-align:center}
+      .hero-copy p{text-align:center;margin-left:auto;margin-right:auto}
+      .cta-row{justify-content:center}
+    }
+    @media (max-width:900px){
+      .about-grid{grid-template-columns:1fr}
+      .city-demo{grid-template-columns:1fr}
+    }
+    @media (max-width:820px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
+      .footer-top{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <a href="#main" class="visually-hidden">Skip to content</a>
+
+  <!-- Navbar -->
+  <nav class="navbar" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="#home" class="brand">
+        <img src="images/eco.png" alt="EcoWarriors Logo"/>
+        <span>EcoWarriors</span>
+      </a>
+      <div class="spacer" aria-hidden="true"></div>
+      <div class="nav-links-wrap" style="position:relative">
+        <ul class="nav-links" role="list">
+          <li><a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a></li>
+          <li><a href="#about" class="nav-link"><i class="fa-solid fa-seedling"></i> About</a></li>
+          <li><a href="#overview" class="nav-link"><i class="fa-solid fa-map"></i> Overview</a></li>
+          <li><a href="#features" class="nav-link"><i class="fa-solid fa-star"></i> Features</a></li>
+          <li><a href="#faq" class="nav-link"><i class="fa-solid fa-circle-question"></i> FAQ</a></li>
+          <li><a href="#team" class="nav-link"><i class="fa-solid fa-users"></i> Our Team</a></li>
+        </ul>
+        <div class="nav-underline" id="navUnderline" aria-hidden="true"></div>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-controls="menuPanel" aria-expanded="false" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </nav>
+  <div class="menu-panel" id="menuPanel" role="dialog" aria-modal="true" aria-label="Mobile menu">
+    <ul>
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#overview" class="nav-link">Overview</a></li>
+      <li><a href="#features" class="nav-link">Features</a></li>
+      <li><a href="#faq" class="nav-link">FAQ</a></li>
+      <li><a href="#team" class="nav-link">Our Team</a></li>
+    </ul>
+  </div>
+
+  <main id="main">
+    <!-- HERO -->
+    <section id="home" class="home">
+      <div class="hero">
+        <div id="heroParticles" aria-hidden="true"></div>
+
+        <div class="hero-inner">
+          <!-- Left text -->
+          <div class="hero-copy">
+            <span class="kicker">LEARN • PLAY • PROTECT</span>
+            <h1>EcoWarriors Africa</h1>
+            <p>An interactive driving game that empowers African youth to understand and tackle climate issues through fun, meaningful missions.</p>
+            <div class="cta-row">
+              <button id="cta" class="btn-primary" type="button">Get App</button>
+              <!-- changed to scroll to About -->
+              <a href="#about" class="btn-ghost">How it works</a>
+            </div>
+            <p id="typed" class="hero-typed" aria-live="polite"></p>
+          </div>
+
+          <!-- Right illustration (more realistic EV van + moving road) -->
+          <div class="hero-art">
+            <div class="hero-card">
+              <svg viewBox="0 0 900 460" role="img" aria-label="Electric delivery van driving through a sustainable city at night">
+                <defs>
+                  <linearGradient id="vanBody" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#1a3e5b"/><stop offset=".6" stop-color="#0f2b43"/><stop offset="1" stop-color="#0b1e33"/>
+                  </linearGradient>
+                  <linearGradient id="vanEdge" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#2f5d7d"/><stop offset=".5" stop-color="#1a3b59"/><stop offset="1" stop-color="#0b2136"/>
+                  </linearGradient>
+                  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#2f7aa0" stop-opacity=".95"/><stop offset=".5" stop-color="#1a4d6a" stop-opacity=".88"/><stop offset="1" stop-color="#0e253b" stop-opacity=".95"/>
+                  </linearGradient>
+                  <radialGradient id="rimGlow" cx=".5" cy=".5" r=".6">
+                    <stop offset="0" stop-color="#aef6ff"/><stop offset="1" stop-color="#6be8ff"/>
+                  </radialGradient>
+                  <radialGradient id="head" cx=".1" cy=".5" r="1">
+                    <stop offset="0" stop-color="#e7fdff"/><stop offset="1" stop-color="#7deaff" stop-opacity=".2"/>
+                  </radialGradient>
+                  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+                  <filter id="trail" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+                  <linearGradient id="shadowGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#06101b" stop-opacity=".9"/><stop offset="1" stop-color="#06101b" stop-opacity=".2"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- skyline -->
+                <g opacity=".55">
+                  <rect x="40" y="120" width="80" height="180" fill="#0c2136"/>
+                  <rect x="140" y="80" width="90" height="220" fill="#0c2136"/>
+                  <rect x="250" y="110" width="110" height="190" fill="#0c2136"/>
+                  <rect x="390" y="95" width="120" height="205" fill="#0c2136"/>
+                  <rect x="540" y="125" width="90" height="175" fill="#0c2136"/>
+                  <rect x="650" y="85" width="130" height="215" fill="#0c2136"/>
+                </g>
+                <!-- panels + turbine -->
+                <g opacity=".85" stroke="#37d9eb" fill="#102a3f">
+                  <rect x="165" y="120" width="56" height="18" stroke-width="2"/>
+                  <rect x="280" y="118" width="64" height="18" stroke-width="2"/>
+                  <rect x="690" y="112" width="64" height="18" stroke-width="2"/>
+                </g>
+                <g stroke="#9deafe" stroke-width="2">
+                  <line x1="520" y1="122" x2="520" y2="80"/>
+                  <line x1="520" y1="80" x2="505" y2="66"/>
+                  <line x1="520" y1="80" x2="535" y2="66"/>
+                  <line x1="520" y1="80" x2="520" y2="60"/>
+                </g>
+
+                <!-- Road -->
+                <rect x="0" y="350" width="900" height="90" fill="#0a1424"/>
+                <g class="road-dashes" transform="translate(0,0)" fill="#6bdff2" opacity=".9">
+                  <rect x="60" y="385" width="80" height="6" rx="3"/>
+                  <rect x="200" y="385" width="80" height="6" rx="3"/>
+                  <rect x="340" y="385" width="80" height="6" rx="3"/>
+                  <rect x="480" y="385" width="80" height="6" rx="3"/>
+                  <rect x="620" y="385" width="80" height="6" rx="3"/>
+                  <rect x="760" y="385" width="80" height="6" rx="3"/>
+                </g>
+                <g class="road-dashes offset" transform="translate(180,0)" fill="#6bdff2" opacity=".9">
+                  <rect x="60" y="385" width="80" height="6" rx="3"/>
+                  <rect x="200" y="385" width="80" height="6" rx="3"/>
+                  <rect x="340" y="385" width="80" height="6" rx="3"/>
+                  <rect x="480" y="385" width="80" height="6" rx="3"/>
+                  <rect x="620" y="385" width="80" height="6" rx="3"/>
+                  <rect x="760" y="385" width="80" height="6" rx="3"/>
+                </g>
+
+                <ellipse cx="450" cy="402" rx="220" ry="24" fill="url(#shadowGrad)" opacity=".85"/>
+                <rect x="160" y="395" width="160" height="8" fill="#0a1424" filter="url(#trail)" opacity=".25"/>
+
+                <!-- ===== VAN (animated) ===== -->
+                <g class="drive">
+                  <g class="bob">
+                    <g transform="translate(210 260)">
+                      <!-- base plate -->
+                      <path d="M10 60h420c12 0 22 8 24 20l4 20H0l6-24c3-10 12-16 22-16z" fill="#071828"/>
+
+                      <!-- body -->
+                      <path d="M40 10h250c18 0 34 8 44 22l24 34h98c14 0 24 10 24 24v42H10l10-34c6-20 24-34 46-34h40z"
+                            fill="url(#vanBody)" stroke="#1dd7ee" stroke-width="2"/>
+
+                      <!-- side belt line -->
+                      <path d="M56 62h262" stroke="#66eaff" opacity=".4"/>
+
+                      <!-- cargo box -->
+                      <path d="M48 6h212c20 0 28 10 36 22l16 24H70c-22 0-40 14-46 34l-6 18V52c0-26 14-46 32-52z" fill="url(#vanEdge)"/>
+                      <path d="M60 22h180c16 0 28 8 36 20l10 12H88c-22 0-40 10-50 28l-6 12" fill="#bff6ff" opacity=".06"/>
+
+                      <!-- logo swoosh -->
+                      <g transform="translate(86 30)">
+                        <path d="M0 20c40-18 110-14 150-8" fill="none" stroke="#56e8ff" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="0" cy="20" r="7" fill="url(#rimGlow)"/>
+                      </g>
+
+                      <!-- cabin -->
+                      <path d="M300 10h74c18 0 32 14 32 32v74h-96z" fill="url(#vanEdge)" stroke="#1dd7ee" stroke-width="2"/>
+
+                      <!-- windshield + side window with stronger reflections -->
+                      <path d="M308 22h58c10 0 18 8 18 18v30h-76z" fill="url(#glass)"/>
+                      <path d="M308 22h58c10 0 18 8 18 18v30h-76z" fill="url(#head)" opacity=".18"/>
+                      <rect x="312" y="58" width="40" height="22" rx="4" fill="url(#glass)"/>
+                      <rect x="312" y="58" width="40" height="22" rx="4" fill="#9fefff" opacity=".08"/>
+                      <!-- diagonal reflection line -->
+                      <path d="M312 58l36 22" stroke="#b7f5ff" opacity=".2"/>
+
+                      <!-- mirror -->
+                      <rect x="370" y="60" width="10" height="16" rx="3" fill="#12344f" stroke="#5be9ff" stroke-width="1.5"/>
+
+                      <!-- roof light strip -->
+                      <rect x="288" y="6" width="88" height="6" rx="3" fill="#9fefff" opacity=".25"/>
+
+                      <!-- door seam & handle -->
+                      <path d="M352 35v46" stroke="#3bdcf0" opacity=".6"/>
+                      <rect x="344" y="78" width="14" height="4" rx="2" fill="#7feaff"/>
+
+                      <!-- headlight + glow -->
+                      <ellipse cx="404" cy="92" rx="18" ry="10" fill="url(#head)"/>
+                      <rect x="392" y="88" width="8" height="6" rx="2" fill="#eaffff" opacity=".95"/>
+                      <ellipse cx="430" cy="92" rx="48" ry="14" fill="#aef6ff" opacity=".16" filter="url(#soft)"/>
+
+                      <!-- rear light -->
+                      <rect x="52" y="100" width="10" height="16" rx="2" fill="#ff6b6b" opacity=".8"/>
+
+                      <!-- charge badge -->
+                      <g transform="translate(270 102)" opacity=".9">
+                        <rect x="0" y="0" width="26" height="14" rx="6" fill="#11324b" stroke="#56e8ff"/>
+                        <path d="M9 11l4-5h-3l3-5" stroke="#56e8ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      </g>
+
+                      <!-- wheel wells -->
+                      <g fill="#051423" stroke="#1dd7ee" opacity=".65">
+                        <path d="M80 112a34 34 0 0 1 68 0z"/>
+                        <path d="M300 112a34 34 0 0 1 68 0z"/>
+                      </g>
+
+                      <!-- LEFT wheel -->
+                      <g transform="translate(94 112)">
+                        <g class="wheel-spin">
+                          <circle cx="20" cy="20" r="20" fill="#0a1424" stroke="#7feaff" stroke-width="3"/>
+                          <circle cx="20" cy="20" r="13" fill="#0f1f31"/>
+                          <!-- simple tread spokes -->
+                          <g fill="url(#rimGlow)">
+                            <rect x="18" y="8" width="4" height="8" rx="2"/>
+                            <rect x="18" y="24" width="4" height="8" rx="2"/>
+                            <rect x="8"  y="18" width="8" height="4" rx="2"/>
+                            <rect x="24" y="18" width="8" height="4" rx="2"/>
+                          </g>
+                        </g>
+                      </g>
+
+                      <!-- RIGHT wheel -->
+                      <g transform="translate(314 112)">
+                        <g class="wheel-spin">
+                          <circle cx="20" cy="20" r="20" fill="#0a1424" stroke="#7feaff" stroke-width="3"/>
+                          <circle cx="20" cy="20" r="13" fill="#0f1f31"/>
+                          <g fill="url(#rimGlow)">
+                            <rect x="18" y="8" width="4" height="8" rx="2"/>
+                            <rect x="18" y="24" width="4" height="8" rx="2"/>
+                            <rect x="8"  y="18" width="8" height="4" rx="2"/>
+                            <rect x="24" y="18" width="8" height="4" rx="2"/>
+                          </g>
+                        </g>
+                      </g>
+
+                      <!-- glossy highlight -->
+                      <path d="M60 18h230c18 0 28 8 38 20l14 18H80c-26 0-46 12-56 32l-4 10V56c0-28 20-38 40-38z" fill="#aef6ff" opacity=".06"/>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- sparkles -->
+                <g opacity=".6">
+                  <circle cx="120" cy="70" r="2" fill="#baf7ff"/>
+                  <circle cx="780" cy="90" r="2" fill="#baf7ff"/>
+                  <circle cx="420" cy="50" r="2" fill="#baf7ff"/>
+                  <circle cx="660" cy="150" r="2" fill="#baf7ff"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about reveal" aria-labelledby="about-title">
+      <div class="container">
+        <h2 id="about-title">About the Project</h2>
+        <p class="intro">We turn eco-awareness into habit-forming action using real city routes, playful challenges, and rewards that reflect impact.</p>
+        <div class="about-grid">
+          <div>
+            <div class="about-list" role="list">
+              <div class="about-item" role="listitem">
+                <div class="about-icon" aria-hidden="true">🌍</div>
+                <div>
+                  <h3>Problem</h3>
+                  <p>Young people care about the environment, but textbooks and posters rarely build daily habits.</p>
+                </div>
+              </div>
+              <div class="about-item" role="listitem">
+                <div class="about-icon" aria-hidden="true">💡</div>
+                <div>
+                  <h3>Our Approach</h3>
+                  <p>Mission-based driving that rewards fuel-smart choices, waste sorting, and efficient routing.</p>
+                </div>
+              </div>
+              <div class="about-item" role="listitem">
+                <div class="about-icon" aria-hidden="true">🚗</div>
+                <div>
+                  <h3>Built for Africa</h3>
+                  <p>Local contexts, offline-friendly play, and practical EcoTips that match real streets.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="stats">
+              <div class="stat"><div class="stat-number" data-target="25">0</div><div class="stat-label">Cities planned</div></div>
+              <div class="stat"><div class="stat-number" data-target="1200">0</div><div class="stat-label">Beta signups</div></div>
+              <div class="stat"><div class="stat-number" data-target="86">0</div><div class="stat-label">EcoTips in-game</div></div>
+            </div>
+            <div class="value-card">
+              <p style="margin:0;color:var(--muted);text-align:left">
+                Your decisions power the <strong>EcoHealth</strong> meter — avoid idling, plan routes, and sort waste to unlock cleaner air, happier citizens, and new districts.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="overview reveal" aria-labelledby="overview-title">
+      <div class="container">
+        <h2 id="overview-title">How It Works</h2>
+        <p class="blurb">Pick a city → accept missions → make eco-smart choices → watch EcoHealth rise. Compete with friends or your own best time.</p>
+
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker-track">
+            <span class="pill">Gamified missions</span>
+            <span class="pill">EcoHealth progression</span>
+            <span class="pill">Ghost racing</span>
+            <span class="pill">Rewards & upgrades</span>
+            <span class="pill">City delivery routes</span>
+            <span class="pill">Fuel efficiency tips</span>
+            <span class="pill">Waste sorting mini-games</span>
+            <span class="pill">Gamified missions</span>
+            <span class="pill">EcoHealth progression</span>
+            <span class="pill">Ghost racing</span>
+            <span class="pill">Rewards & upgrades</span>
+            <span class="pill">City delivery routes</span>
+            <span class="pill">Fuel efficiency tips</span>
+            <span class="pill">Waste sorting mini-games</span>
+          </div>
+        </div>
+
+        <div class="city-demo" style="margin-top:22px">
+          <div class="city-panel">
+            <label for="citySel" style="display:block;margin-bottom:8px">Try a city</label>
+            <select id="citySel" class="input" style="padding:10px">
+              <option value='{"name":"Nairobi","health":62,"tip":"Avoid idling in traffic and take ring-roads where possible."}'>Nairobi</option>
+              <option value='{"name":"Lagos","health":55,"tip":"Plan deliveries off-peak and keep tires properly inflated."}'>Lagos</option>
+              <option value='{"name":"Accra","health":71,"tip":"Combine routes to reduce fuel and time per mission."}'>Accra</option>
+              <option value='{"name":"Kigali","health":78,"tip":"Coast to slow down, brake less, save fuel."}'>Kigali</option>
+            </select>
+            <div style="height:12px"></div>
+            <div class="meter" aria-label="EcoHealth meter"><span id="healthBar" style="width:62%"></span></div>
+            <p id="cityTip" style="color:var(--muted);margin:10px 0 0">Avoid idling in traffic and take ring-roads where possible.</p>
+          </div>
+          <div class="city-panel">
+            <h3 style="margin:0 0 8px;text-align:left">Mission Types</h3>
+            <ul style="margin:0;padding-left:18px;color:var(--muted)">
+              <li>Resource delivery (time + fuel constraints)</li>
+              <li>Waste sorting mini-games</li>
+              <li>EcoTip challenges (quick quizzes)</li>
+              <li>Ghost racing time trials</li>
+            </ul>
+            <div style="height:12px"></div>
+            <p style="margin:0;color:var(--muted)">Complete missions to earn stars, unlock upgrades, and raise your city’s EcoHealth.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="features reveal" aria-labelledby="features-title">
+      <div class="container">
+        <h2 id="features-title">Key Features</h2>
+        <p class="lead">Switch categories to explore gameplay, learning, and competition.</p>
+        <div class="feature-tabs" role="tablist">
+          <button class="chip" role="tab" aria-selected="true" data-group="play">Play</button>
+          <button class="chip" role="tab" aria-selected="false" data-group="learn">Learn</button>
+          <button class="chip" role="tab" aria-selected="false" data-group="compete">Compete</button>
+        </div>
+        <div class="cards" id="featureCards"><!-- injected by JS --></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq reveal" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 id="faq-title">FAQ</h2>
+
+        <div class="item open">
+          <button aria-expanded="true">
+            <span>When will the app launch?</span>
+            <i class="fa-solid fa-minus"></i>
+          </button>
+          <div class="content" aria-hidden="false">
+            <div class="content-inner">We’re polishing core missions now. Join the waitlist to be first in!</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <button aria-expanded="false">
+            <span>Which platforms?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="content" aria-hidden="true">
+            <div class="content-inner">Android and iOS, with an offline-friendly mode for low connectivity.</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <button aria-expanded="false">
+            <span>Is it free?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="content" aria-hidden="true">
+            <div class="content-inner">Yes. Optional cosmetic upgrades can be earned or unlocked later.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-band reveal" aria-label="Join the waitlist">
+      <div class="inner">
+        <h2>Be first to play</h2>
+        <p>Get notified when EcoWarriors Africa drops.</p>
+        <button class="btn-primary open-waitlist" type="button">Join the Waitlist</button>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="team reveal" aria-labelledby="team-title">
+      <div id="teamParticles" aria-hidden="true"></div>
+      <div class="container">
+        <h2 id="team-title">Our Team</h2>
+        <div class="team-track" id="teamTrack" aria-label="Team carousel" tabindex="0">
+          <article class="member">
+            <img src="images/nderu.png" alt="Dr Lawrence Nderu" loading="lazy"/>
+            <div class="info">
+              <h3>Dr Lawrence Nderu</h3>
+              <p>Chairman Computing</p>
+              <div class="social" aria-label="Social links">
+                <a href="https://github.com/Wariara-Gertu" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/gertrude-kinuthia-5a1770320" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/wariara.k" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="member">
+            <img src="images/wariara.jpg" alt="Wariara Kinuthia" loading="lazy"/>
+            <div class="info">
+              <h3>Wariara Kinuthia</h3>
+              <p>Back-end Developer</p>
+              <div class="social">
+                <a href="https://github.com/Wariara-Gertu" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/gertrude-kinuthia-5a1770320" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/wariara.k" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="member">
+            <img src="images/musembi.jpg" alt="Musembi Muia" loading="lazy"/>
+            <div class="info">
+              <h3>Musembi Muia</h3>
+              <p> Web,UI/UX Designer</p>
+              <div class="social">
+                <a href="https://github.com/musembi22" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/musembi-muia-48a3682b8" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="member">
+            <img src="images/james.jpg" alt="James Muritu" loading="lazy"/>
+            <div class="info">
+              <h3>James Muritu</h3>
+              <p>Back-end Developer</p>
+              <div class="social">
+                <a href="https://github.com/James-tec" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/musembi-muia-48a3682b8" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="member">
+            <img src="images/pesh.jpg" alt="Mwende Genesis" loading="lazy"/>
+            <div class="info">
+              <h3>Mwende Genesis</h3>
+              <p>Team Lead</p>
+              <div class="social">
+                <a href="https://github.com/ItsMwendeez" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/patience-genesis-mwende-njagi-231914369" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/.its.mwendeez." aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="member">
+            <img src="images/beckham.jpg" alt="Beckham Juma" loading="lazy"/>
+            <div class="info">
+              <h3>Beckham Juma</h3>
+              <p>Communication Lead</p>
+              <div class="social">
+                <a href="https://github.com/musembi22" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/musembi-muia-48a3682b8" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER (with Partners) -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">
+          <img src="images/eco.png" alt="EcoWarriors" style="height:30px;"/>
+          <span>EcoWarriors</span>
+        </div>
+        <p style="margin:10px 0 0;color:var(--muted)">Learn. Play. Protect.</p>
+      </div>
+
+      <nav class="footer-links" aria-label="Footer links">
+        <h3>Links</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#team">Our Team</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h3>Contact Us</h3>
+        <p style="color:var(--muted)">We’d love to hear from you.</p>
+        <div class="contact-actions">
+          <a class="contact-btn" href="https://wa.me/254740447727?text=Hi%20EcoWarriors%20Africa!%20I%20would%20like%20to%20get%20in%20touch." target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+          <a class="contact-btn" href="https://github.com/musembi22" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github"></i> GitHub
+          </a>
+          <a class="contact-btn" href="https://www.linkedin.com/company/ecowarriors" target="_blank" rel="noopener">
+            <i class="fa-brands fa-linkedin"></i> LinkedIn
+          </a>
+          <a class="contact-btn" href="https://www.instagram.com/ecowarriors" target="_blank" rel="noopener">
+            <i class="fa-brands fa-instagram"></i> Instagram
+          </a>
+          <a class="contact-btn" href="https://twitter.com/ecowarriors" target="_blank" rel="noopener">
+            <i class="fa-brands fa-x-twitter"></i> X
+          </a>
+          <button id="copyEmail" class="contact-btn" type="button">
+            <i class="fa-solid fa-envelope"></i> Copy email
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Partners strip -->
+    <div class="partners">
+      <div class="inner">
+        <h3>Partners</h3>
+        <div class="logo-badges" aria-label="Partner logos">
+          <span class="badge">Coming Soon1!</span>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="year"></span>. All rights reserved.</p>
+      <div>
+        <span style="margin-right:8px">Follow us:</span>
+        <a href="https://github.com/musembi22" aria-label="GitHub"><i class="fa-brands fa-github fa-lg"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="to-top" id="toTop" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Waitlist Modal (pops from Get App + CTA band) -->
+  <div class="modal" id="waitlistModal" role="dialog" aria-modal="true" aria-labelledby="waitlistTitle" aria-describedby="waitlistDesc">
+    <div class="modal-card">
+      <h3 id="waitlistTitle">Join the Waitlist</h3>
+      <p id="waitlistDesc" style="color:var(--muted);margin:6px 0 14px">Be first to know when the app drops.</p>
+      <form id="waitlistForm" novalidate>
+        <label class="visually-hidden" for="name">Name</label>
+        <input id="name" name="name" class="input" placeholder="Your name" autocomplete="name" />
+        <div style="height:10px"></div>
+        <label class="visually-hidden" for="email">Email</label>
+        <input id="email" name="email" type="email" class="input" placeholder="Email address" autocomplete="email" required />
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="closeModal">Cancel</button>
+          <button type="submit" class="btn-primary">Join</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <style>.reveal{opacity:1;transform:none}</style>
+    <div class="container" style="padding:12px 20px">This site works better with JavaScript enabled.</div>
+  </noscript>
+
+  <script>
+    // JS enabled + helpers
+    document.body.classList.add('js');
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+    // Year
+    $('#year').textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const menuBtn = $('#menuBtn'), menuPanel = $('#menuPanel');
+    const toggleMenu = () => { const open = menuPanel.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', String(open)); };
+    menuBtn?.addEventListener('click', toggleMenu);
+    menuPanel?.addEventListener('click', e => { if (e.target.matches('a')) menuPanel.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') menuPanel.classList.remove('open'); });
+
+    // Sliding underline + active link on scroll
+    const links = $$('.nav-link'), underline = $('#navUnderline');
+    function moveUnderline(el){ if(!el||!underline) return; const r=el.getBoundingClientRect(); const pr=el.offsetParent.getBoundingClientRect(); underline.style.left=(r.left-pr.left)+'px'; underline.style.width=r.width+'px'; underline.style.opacity=.9; }
+    links.forEach(l=>l.addEventListener('mouseenter', ()=>moveUnderline(l)));
+    document.querySelector('.nav-links')?.addEventListener('mouseleave', ()=>{ underline.style.opacity=.2; });
+    const ids = links.map(l => l.getAttribute('href')).filter(Boolean);
+    ids.forEach(id => {
+      const target = document.querySelector(id); if (!target) return;
+      const ob = new IntersectionObserver((entries)=>{
+        entries.forEach(ent=>{
+          if(ent.isIntersecting){
+            links.forEach(l=>l.classList.remove('active'));
+            const active = document.querySelector(`.nav-link[href="${id}"]`);
+            if(active){ active.classList.add('active'); moveUnderline(active); }
+          }
+        });
+      },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+      ob.observe(target);
+    });
+    window.addEventListener('load', ()=>{ const a=document.querySelector('.nav-link.active'); if(a) moveUnderline(a); });
+    window.addEventListener('resize', ()=>{ const a=document.querySelector('.nav-link.active'); if(a) moveUnderline(a); });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
+    $$('.reveal').forEach(s => io.observe(s));
+
+    // Typed tagline
+    if (window.Typed) {
+      new Typed('#typed', { strings: ['Gamified missions.','Real-world impact.','Learn. Play. Protect.'], typeSpeed: 36, backSpeed: 22, backDelay: 1200, loop: true, smartBackspace: true });
+    }
+
+    // Modal (Get App + CTA band open modal)
+    const modal = $('#waitlistModal');
+    const openModal = () => modal.classList.add('open');
+    const closeModal = () => modal.classList.remove('open');
+    $('#cta')?.addEventListener('click', openModal);
+    $$('.open-waitlist').forEach(btn => btn.addEventListener('click', openModal));
+    $('#closeModal')?.addEventListener('click', closeModal);
+    modal?.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    const toast = $('#toast');
+    function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 2800); }
+
+    // Waitlist submit (demo only)
+    $('#waitlistForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = $('#email').value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showToast('Please enter a valid email.');
+      closeModal(); showToast("Thanks! We'll notify you soon.");
+    });
+
+    // Stats count-up
+    const statIO = new IntersectionObserver((entries)=>{ entries.forEach(ent=>{ if(!ent.isIntersecting) return; const el=ent.target; statIO.unobserve(el); const target=Number(el.dataset.target||0); const start=performance.now(); const dur=1100; const step=(t)=>{ const p=Math.min((t-start)/dur,1); el.textContent=Math.floor(target*(0.5-0.5*Math.cos(Math.PI*p))); if(p<1) requestAnimationFrame(step); }; requestAnimationFrame(step); }); },{threshold:0.5});
+    $$('.stat-number').forEach(n=>statIO.observe(n));
+
+    // Feature tabs
+    const data = {
+      play: [
+        { img:'images/delivery.png', title:'Delivery Missions', p:'Pick up crates, avoid traffic, and deliver on time to earn points.', s:'Beat timers and keep fuel low.' },
+        { img:'images/racing.png', title:'Ghost Racing', p:'Race your best run or a friend’s ghost for leaderboards.', s:'Win rewards and bragging rights.' },
+        { img:'images/upgrade.png', title:'Upgrades', p:'Unlock vehicles, efficiency perks, and fresh skins.', s:'Progress your garage as you play.' }
+      ],
+      learn: [
+        { img:'images/ecotips.png', title:'EcoTips', p:'Timely tips on fuel, waste sorting, and energy use.', s:'Short, memorable, in-context prompts.' },
+        { img:'images/health.png', title:'EcoHealth', p:'See your city’s health improve with every smart choice.', s:'Visual feedback drives habit formation.' },
+        { img:'images/delivery.png', title:'Route Planning', p:'Plan efficient paths to cut emissions and time.', s:'Play smarter, not harder.' }
+      ],
+      compete: [
+        { img:'images/racing.png', title:'Leaderboards', p:'Climb rankings across cities and mission types.', s:'Compare with friends and top players.' },
+        { img:'images/upgrade.png', title:'Seasonal Challenges', p:'Limited-time goals with unique rewards.', s:'Keep things fresh and exciting.' },
+        { img:'images/health.png', title:'Clubs', p:'Form teams, share strategies, and boost EcoHealth together.', s:'Co-op competition that feels good.' }
+      ]
+    };
+    const tabs = $$('.chip'); const cardsWrap = $('#featureCards');
+    const renderCards = (group) => { const items = data[group]||[]; cardsWrap.innerHTML = items.map(it=>`
+      <article class="card" tabindex="0">
+        <div class="card-head"><img src="${it.img}" alt="${it.title} icon" loading="lazy"><h3 style="margin:0">${it.title}</h3></div>
+        <p>${it.p}</p><small>${it.s}</small>
+      </article>`).join(''); };
+    renderCards('play');
+    tabs.forEach(t=>t.addEventListener('click',()=>{ tabs.forEach(x=>x.setAttribute('aria-selected','false')); t.setAttribute('aria-selected','true'); renderCards(t.dataset.group); }));
+
+    // City demo
+    const sel=$('#citySel'), tip=$('#cityTip'), bar=$('#healthBar');
+    sel?.addEventListener('change', ()=>{ const obj=JSON.parse(sel.value); tip.textContent=obj.tip; const pct=Math.max(10,Math.min(100,obj.health)); bar.style.width=pct+'%'; bar.style.background=pct<50?`linear-gradient(90deg,#f87171,#fbbf24)`: `linear-gradient(90deg,#fbbf24,var(--accent))`; });
+
+    // Team carousel
+    const track = $('#teamTrack');
+    if (track) {
+      const style=getComputedStyle(track); const gap=parseInt(style.gap)||16;
+      let step=(track.querySelector('.member')?.getBoundingClientRect().width||240)+gap; let interval;
+      const autoPlay=()=>{ if(track.scrollLeft+track.clientWidth>=track.scrollWidth-1) track.scrollTo({left:0,behavior:'smooth'}); else track.scrollBy({left:step,behavior:'smooth'}); };
+      const startAuto=()=>{ clearInterval(interval); interval=setInterval(autoPlay,3000); };
+      const stopAuto=()=>clearInterval(interval);
+      startAuto(); track.addEventListener('mouseenter',stopAuto); track.addEventListener('mouseleave',startAuto);
+      window.addEventListener('resize',()=>{ step=(track.querySelector('.member')?.getBoundingClientRect().width||240)+gap; });
+      track.addEventListener('keydown',e=>{ if(e.key==='ArrowRight') track.scrollBy({left:step,behavior:'smooth'}); if(e.key==='ArrowLeft') track.scrollBy({left:-step,behavior:'smooth'}); });
+    }
+
+    // tsParticles
+    function loadParticlesHero(){ if(!window.tsParticles) return;
+      tsParticles.load('heroParticles', {
+        fpsLimit: 60, fullScreen: { enable: false },
+        interactivity: { events: { onHover: { enable: true, mode: 'repulse' }, resize: true }, modes: { repulse: { distance: 80, duration: 0.4 } } },
+        particles: { number: { value: 35, density: { enable: true, area: 800 } }, color: { value: ['#22d3ee', '#4fd1c5', '#ffffff'] }, links: { enable: true, distance: 120, opacity: 0.22 }, move: { enable: true, speed: 0.8, outModes: { default: 'bounce' } }, opacity: { value: 0.5 }, size: { value: { min: 1, max: 3 } } }
+      });
+    }
+    function loadParticlesTeam(){ if(!window.tsParticles) return;
+      tsParticles.load('teamParticles', {
+        fpsLimit: 60, fullScreen: { enable: false },
+        interactivity: { events: { onHover: { enable: true, mode: 'repulse' } } },
+        particles: { number: { value: 50 }, size: { value: { min: 1, max: 3 } }, move: { enable: true, speed: 1 }, opacity: { value: 0.5 }, color: { value: ['#22d3ee', '#4fd1c5', '#ffffff'] }, links: { enable: true, opacity: 0.25 } }
+      });
+    }
+    window.addEventListener('load', ()=>{ loadParticlesHero(); loadParticlesTeam(); });
+
+    // FAQ accordion
+    $$('.faq .item').forEach(item=>{
+      const btn=item.querySelector('button'); const content=item.querySelector('.content');
+      btn.addEventListener('click', ()=>{ const open=item.classList.toggle('open'); btn.setAttribute('aria-expanded',String(open)); const icon=btn.querySelector('i'); if(icon) icon.className='fa-solid '+(open?'fa-minus':'fa-plus'); content.setAttribute('aria-hidden',String(!open)); });
+    });
+
+    // Back to top + progress
+    const toTop=$('#toTop'); const topIO=new IntersectionObserver(entries=>{ entries.forEach(ent=>{ toTop.classList.toggle('visible', !ent.isIntersecting); }); }, { threshold: .5 }); topIO.observe($('#home'));
+    toTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+    const progress=$('#progress'); const onScroll=()=>{ const h=document.documentElement; const scrolled=(h.scrollTop)/(h.scrollHeight-h.clientHeight); progress.style.width=(scrolled*100)+'%'; };
+    document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+    // Footer: copy email
+    $('#copyEmail')?.addEventListener('click', async ()=>{ const email='hello@ecowarriors.africa'; try{ await navigator.clipboard.writeText(email); const t=$('#toast'); t.textContent='Email copied: '+email; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }catch(e){ const t=$('#toast'); t.textContent='Could not copy email'; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }});
+  </script>
+</body>
+</html>
